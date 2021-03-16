@@ -19,12 +19,12 @@ You can either specify the path to this key directly using the _GOOGLE_APPLICATI
 $ gcloud auth application-default login
 ```
 
-Alternatively, you can use the [project resource](gcloud/project.tf) to create
+Alternatively, you can use the [project resource](gcp/project.tf) to create
 new project with the minimum set of Google CLoud APIs enabled to spin up new GKE
 cluster.
 
 ```
-$ terraform apply gcloud
+$ terraform plan gcp
 ```
 
 ### Set up the environment
@@ -43,7 +43,7 @@ or
 
 ```
 $ cp sample.terraform.tfvars terraform.tfvars
-$ terraform -var-file=terraform.tfvars plan gcloud
+$ terraform -var-file=terraform.tfvars plan gcp
 ````
 
 __NOTE:__ Terraform first will look into environement variables of it's own process then `terraform.tfvars` if present.
