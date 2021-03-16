@@ -5,26 +5,64 @@ for provisioning a Kubernetes cluster on [Google Cloud](https://cloud.google.com
 
 ---
 
-### Prerequisites
+### Prerequisite
+
+#### Google Cloud Account
 
 You need a Google Cloud account and an active Google Cloud project with
 billing enabled to start.
 
 see: [Google Cloud Installation and Setup](https://cloud.google.com/deployment-manager/docs/step-by-step-guide/installation-and-setup) guide.
 
-__NOTE:__ The recommended way to authenticate to the Google Cloud API is by using a [service account](https://cloud.google.com/docs/authentication/getting-started).
-You can either specify the path to this key directly using the _GOOGLE_APPLICATION_CREDENTIALS_ environment variable or you can run 
+#### Terraform Admin Project
+
+Rather than using the actual project where we will actively managing the
+resources, using a standalone gcp project exclusively for Terraform will
+allow us to manage static configuration such as terraform backend remote
+state on separate project.
+
+see: [Creating Terraform Admin Project](https://cloud.google.com/community/tutorials/managing-gcp-projects-with-terraform#create_the_terraform_admin_project)
+
+#### Terraform Service Account
+
+We will create service account with organization level IAM permission using the
+admin project we created above, so we can manage the gcp resources on other projects within
+organization.
+
+see: [Creating Service Account for Terraform](https://cloud.google.com/community/tutorials/managing-gcp-projects-with-terraform#create_the_terraform_service_account)
+
+#### Set up Terraform Remote Backend
+
+We will store terraform states on `gcs` bucket we created under terraform admin
+project above. First make sure that the service account that we created above
+have access to manage `Cloud Storage` resources.
+
+By default terraform will use `local` backend which will store terraform states
+on local directory.
+
+To configure terraform to use remote storage (gcs on this case), run this
+snippet on our terraform root directory.
 
 ```
-$ gcloud auth application-default login
+cat > backend.tf << EOF
+terraform {
+ backend "gcs" {
+   bucket  = "${TF_ADMIN}"
+   prefix  = "terraform/state/gcp"
+ }
+}
+EOF
 ```
 
-Alternatively, you can use the [project resource](gcp/project.tf) to create
-new project with the minimum set of Google CLoud APIs enabled to spin up new GKE
-cluster.
+__NOTE:__ Make sure `$TF_ADMIN` is set and `backend.tf` does not using any variables in the config block, because variables is not allowed on this.
+
+And finally, enable versioning for the remote storage so if we
+accidentally corrupt the state, we can still recover it using
+the older version of the state.
 
 ```
-$ terraform plan gcp
+gsutil versioning set on gs://${TF_ADMIN}
+
 ```
 
 ### Set up the environment
