@@ -14,7 +14,7 @@ variable "gke_num_nodes" {
 }
 
 resource "google_container_cluster" "primary" {
-  name     = "${var.cluster_name}-cluster" 
+  name     = "${var.cluster_name}-cluster"
   location = var.zone
 
   # we create the smallest possible default

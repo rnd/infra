@@ -5,12 +5,11 @@ terraform {
       version = "3.52.0"
     }
   }
-
   required_version = "~> 0.14"
 }
 
-variable "project_id" {
-  description = "project id"
+variable "cluster_name" {
+  description = "cluster_name"
 }
 
 variable "region" {
@@ -21,12 +20,8 @@ variable "zone" {
   description = "zone"
 }
 
-variable "cluster_name" {
-  description = "cluster_name"
-}
-
 provider "google" {
-  project = var.project_id
+  project = google_project.primary.project_id
   region  = var.region
-  zone	  = var.zone
+  zone    = var.zone
 }
