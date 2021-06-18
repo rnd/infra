@@ -1,3 +1,8 @@
-# Ops
+# [WIP] Ops 
 
-This repo contains a collection of infra / ops related for my personal project.
+Containing collection of infra / ops related.
+
+#### Top-level directories
+
+* [terraform/](terraform/) - the terraform config to maintain cloud
+  architecture. 
