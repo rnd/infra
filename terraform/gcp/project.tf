@@ -15,9 +15,9 @@ resource "google_project_service" "primary" {
   disable_on_destroy = false
 
   for_each = toset([
-    "dns.googleapis.com",
-    "compute.googleapis.com",
     "container.googleapis.com",
+    "compute.googleapis.com",
+    "dns.googleapis.com",
     "containerregistry.googleapis.com",
     "storage-api.googleapis.com",
   ])

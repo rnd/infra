@@ -29,6 +29,17 @@ We will create service account with organization level IAM permission using the
 admin project we created above, so we can manage the gcp resources on other projects within
 organization.
 
+#### Enable GCP APIs
+
+```
+gcloud services enable cloudresourcemanager.googleapis.com
+gcloud services enable cloudbilling.googleapis.com
+gcloud services enable iam.googleapis.com
+gcloud services enable compute.googleapis.com
+gcloud services enable serviceusage.googleapis.com
+gcloud services enable container.googleapis.com
+```
+
 see: [Creating Service Account for Terraform](https://cloud.google.com/community/tutorials/managing-gcp-projects-with-terraform#create_the_terraform_service_account)
 
 #### Set up Terraform Remote Backend
@@ -54,7 +65,7 @@ terraform {
 EOF
 ```
 
-__NOTE:__ Make sure `$TF_ADMIN` is set and `backend.tf` does not using any variables in the config block, because variables is not allowed on this.
+__NOTE:__ Make sure `$TF_ADMIN` is set and `backend.tf` does not using any variables in the config block, because variable is not allowed on this.
 
 And finally, enable versioning for the remote storage so if we
 accidentally corrupt the state, we can still recover it using
