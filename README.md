@@ -1,8 +1,8 @@
-# [WIP] Ops 
+# Ops 
 
-Containing collection of infra / ops related.
+Contains collection of infra / ops related.
 
 #### Top-level directories
 
 * [terraform/](terraform/) - the terraform config to maintain cloud
-  architecture. 
+  architecture (currently only for GCP).
