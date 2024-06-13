@@ -1,7 +1,7 @@
 {pkgs, ...}: let
   site =
     (builtins.getFlake
-      "path:/home/randy/code/rnd/site")
+      "github:rnd/site")
     .packages
     .${builtins.currentSystem}
     .default;
